@@ -1,5 +1,4 @@
-import { Button } from "./components/ui/button"
-import MainLayout from "./components/ui/layout/MainLayout"
+import MainLayout from "./components/layout/MainLayout"
 
 
 const App=() =>{

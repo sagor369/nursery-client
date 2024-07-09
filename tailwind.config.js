@@ -9,6 +9,9 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    fontFamily: {
+      barlow: ['Barlow', 'sans-serif'],
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -72,7 +75,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage:{
-        "primary-gradian": "linear-gradient(30deg, #DC02C3, #5C53FE)"
+        "primary-gradian": "linear-gradient(30deg, #dc02c3c4, #1665348c)"
       }
     },
   },
