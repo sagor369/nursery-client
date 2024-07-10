@@ -13,19 +13,16 @@ import "@/components/style/swiperSlider.css";
 
 const Header = () => {
   return (
-    <SectionLayout>
-        <div className=" bg-primary-gradian p-2 rounded-md">
-
+    <SectionLayout >
       <Swiper
-       
         autoplay={{
-            delay: 5000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Autoplay, Navigation, Pagination]}
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        modules={[Autoplay, Navigation, Pagination]}
         navigation={true}
         className="w-full text-center h-[80vh] bg-green-800 text-white rounded-md"
       >
@@ -40,7 +37,9 @@ const Header = () => {
               <div className="w-1/3 p-4">
                 <h2 className="text-2xl   font-semibold pb-2">Sun Flower</h2>
                 <p className="text-base font-medium ">
-                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point
+                  It is a long established fact that a reader will be distracted
+                  by the readable content of a page when looking at its layout.
+                  The point
                 </p>
               </div>
               <img
@@ -53,7 +52,6 @@ const Header = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-        </div>
     </SectionLayout>
   );
 };
