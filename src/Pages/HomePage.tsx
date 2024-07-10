@@ -1,4 +1,5 @@
 import Header from '@/components/layout/home/Header';
+import LetestCategory from '@/components/layout/home/LetestCategory';
 import PlantsType from '@/components/layout/home/PlantsType';
 
 const HomePage = () => {
@@ -6,6 +7,7 @@ const HomePage = () => {
         <div>
             <Header></Header>
             <PlantsType></PlantsType>
+            <LetestCategory></LetestCategory>
         </div>
     );
 };
