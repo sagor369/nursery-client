@@ -3,29 +3,56 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
-import { ChangeEvent,  useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import {
+  CardCvcElement,
+  CardExpiryElement,
+  CardNumberElement,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
+import { StripeCardNumberElement} from '@stripe/stripe-js';
 
 const Pay = () => {
-  const [checked, isChecked] = useState(false)
-  const handleCheckboxChange = (e:ChangeEvent<HTMLInputElement>) => {
+  const elements = useElements()
+  const stripe = useStripe()
+  const [checked, isChecked] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedvalue = e.target.checked;
-    isChecked(checkedvalue)
+    isChecked(checkedvalue);
   };
+
+  const onSubmitHandler =async (event: FormEvent<HTMLFormElement>) =>{
+    event.preventDefault()
+    if(!elements || !stripe){
+      return setErrorMessage("card form filupe")
+    }
+    const cardNumberElement = elements.getElement(CardNumberElement);
+    const cardExpiryElement = elements.getElement(CardExpiryElement);
+    const cardCvcElement = elements.getElement(CardCvcElement);
+    
+    
+    const { error, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardNumberElement as StripeCardNumberElement,
+    });
+    if (error) {
+      setErrorMessage(error.message || 'An unexpected error occurred.');
+    } else {
+      console.log(paymentMethod);
+      // Handle the successful creation of the payment method (send to server, etc.)
+      setErrorMessage(null);
+    }
+    console.log(errorMessage)
+  }
   return (
     <div>
       <Tabs defaultValue="card" className="w-[560px]">
@@ -67,70 +94,36 @@ const Pay = () => {
               <CardTitle>Account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
+              <form  onSubmit={onSubmitHandler}>
+
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="First Last" />
+                <Input name= 'name' id="name" placeholder="First Last" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="city">City</Label>
-                <Input id="city" placeholder="" />
+                <Input name="city" id="city" placeholder="" />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="number">Card number</Label>
-                <Input id="number" placeholder="" />
+                <CardNumberElement id="number"  className="border rounded-lg p-3" />
               </div>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="grid gap-2">
-                  <Label htmlFor="month">Expires</Label>
-                  <Select>
-                    <SelectTrigger id="month" aria-label="Month">
-                      <SelectValue placeholder="Month" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="1">January</SelectItem>
-                      <SelectItem value="2">February</SelectItem>
-                      <SelectItem value="3">March</SelectItem>
-                      <SelectItem value="4">April</SelectItem>
-                      <SelectItem value="5">May</SelectItem>
-                      <SelectItem value="6">June</SelectItem>
-                      <SelectItem value="7">July</SelectItem>
-                      <SelectItem value="8">August</SelectItem>
-                      <SelectItem value="9">September</SelectItem>
-                      <SelectItem value="10">October</SelectItem>
-                      <SelectItem value="11">November</SelectItem>
-                      <SelectItem value="12">December</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="year">Year</Label>
-                  <Select>
-                    <SelectTrigger id="year" aria-label="Year">
-                      <SelectValue placeholder="Year" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Array.from({ length: 10 }, (_, i) => (
-                        <SelectItem
-                          key={i}
-                          value={`${new Date().getFullYear() + i}`}
-                        >
-                          {new Date().getFullYear() + i}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Label >Expires</Label>
+                  <CardExpiryElement className="border p-2 rounded-lg"/>
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="cvc">CVC</Label>
-                  <Input id="cvc" placeholder="CVC" />
+                  <CardCvcElement id="cvc" className="border p-2 rounded-lg" />
                 </div>
               </div>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white ">
+              <Button type="submit" className="w-full mt-4 bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white ">
                 Continue
               </Button>
-            </CardFooter>
+              </form>
+            </CardContent>
+           
           </Card>
         </TabsContent>
 
@@ -150,8 +143,11 @@ const Pay = () => {
                 Confram cash on delivery
               </label>
             </div>
-            
-            <Button disabled={!checked} className="w-full bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white ">
+
+            <Button
+              disabled={!checked}
+              className="w-full bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white "
+            >
               Continue
             </Button>
           </div>
