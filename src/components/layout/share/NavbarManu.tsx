@@ -11,17 +11,17 @@ import {
 
 const NavbarManu = () => {
     return (
-        <div className="flex items-center justify-center border-t-2 mt-4 py-2">
+        <div className="flex items-center justify-center ">
             <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link to={"/home"}>
+              <Link to={"/"}>
                 <NavigationMenuLink>Home</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="hover: bg-green-400 bg-inherit">
-                Plants
+                <Link to={'/plants'}>Plants</Link> 
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-72 md:grid-cols-2 lg:w-96 bg-green-200">

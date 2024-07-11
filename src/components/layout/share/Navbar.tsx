@@ -1,8 +1,7 @@
-
 import logo from "@/assets/logo.png";
-import { Button } from "@/components/ui/button";
 import SearchBar from "./SearchBar";
 import NavbarManu from "./NavbarManu";
+import UserBar from "./UserBar";
 
 const Navbar = () => {
   return (
@@ -12,11 +11,11 @@ const Navbar = () => {
           <img src={logo} alt="logo" className="w-20 h-6" />
 
           <SearchBar></SearchBar>
-          <div>
-            <Button className="bg-inherit border ">Login</Button>
-          </div>
+          <UserBar></UserBar>
         </div>
-        <NavbarManu></NavbarManu>
+        <div className="border-t-2 mt-4 py-2">
+          <NavbarManu></NavbarManu>
+        </div>
       </div>
     </div>
   );

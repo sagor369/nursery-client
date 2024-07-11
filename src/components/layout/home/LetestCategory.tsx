@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import SectionLayout from "../SectionLayout";
 import CategoryCard from "../share/CategoryCard";
 import SectionTitle from "../share/SectionTitle";
+import { Link } from "react-router-dom";
 
 const LetestCategory = () => {
   return (
@@ -12,7 +13,8 @@ const LetestCategory = () => {
         </div>
         <div className="bg-green-800 rounded-md p-4 grid grid-cols-4 gap-2" >
             {
-                Array.from({ length: 8 }).map((_, index) =>  <CategoryCard key={index}></CategoryCard>)
+                Array.from({ length: 8 }).map((_, index) => <Link key={index} to={`/${index}`}> <CategoryCard ></CategoryCard>
+                </Link> )
             }
        
         </div>

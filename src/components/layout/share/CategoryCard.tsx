@@ -5,24 +5,12 @@ import {
   CardFooter,
   CardHeader
 } from "@/components/ui/card";
-import { Star, StarIcon } from "lucide-react";
+import { ratingRender } from "@/utils/ratingsCard";
 import { IoMdAdd, IoIosRemove } from "react-icons/io";
 import { PiCurrencyDollarBold } from "react-icons/pi";
 
 const CategoryCard = () => {
-  const ratingRender = (rating: number) => {
-    let ratings = [];
-    for (let i = 1; i <= 5; i++) {
-      ratings.push(
-        i <= rating ? (
-          <Star key={i} className="text-yellow-500" />
-        ) : (
-          <StarIcon key={i} className="text-gray-500" />
-        )
-      );
-    }
-    return ratings;
-  };
+  
 
   return (
     <div>
