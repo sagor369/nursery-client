@@ -1,6 +1,4 @@
 import App from "@/App";
-import PlantsDetails from "@/components/layout/category/PlantsDetails";
-import MainLayout from "@/components/layout/MainLayout";
 import PlantsCard from "@/components/layout/plants/PlantsCard";
 import Checkout from "@/Pages/Checkout";
 import HomePage from "@/Pages/HomePage";

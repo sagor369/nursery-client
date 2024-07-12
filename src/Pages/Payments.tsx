@@ -1,8 +1,6 @@
 import Pay from "@/components/layout/payment/Pay";
 import PaymentByProduct from "@/components/layout/payment/PaymentByProduct";
 import SectionLayout from "@/components/layout/SectionLayout";
-import CheckoutForm from "@/utils/CheckoutForm";
-import SriptProvider from "@/utils/stripeProvider";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 

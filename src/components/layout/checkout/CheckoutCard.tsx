@@ -44,6 +44,9 @@ const CheckoutCard = () => {
   return (
     <SectionLayout>
       <div className="space-y-8 p-4 bg-green-800 text-white">
+        <div className="text-center border-b  border-gray-400 py-2">
+            <h2 className="text-xl text-white capitalize font-semibold ">Welcome to our Card page</h2>
+        </div>
         <Table>
           <TableCaption>
             {" "}
