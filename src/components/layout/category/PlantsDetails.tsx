@@ -65,7 +65,7 @@ const PlantsDetails = () => {
             </div>
 
             <div className="flex p-2 justify-between rounded-lg  border-2 py-2 bg-inherit border-white">
-              <div className="flex gap-4 items-center border rounded-md">
+              <div className="flex gap-4 items-center rounded-md">
                 <Button className="bg-white text-black hover:bg-green-800 ">
                   <IoIosRemove className="hover:text-white  size-6 text-black" />
                 </Button>

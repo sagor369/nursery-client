@@ -3,7 +3,6 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import {
   Card,
   CardContent,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -31,6 +30,7 @@ const Pay = () => {
   };
 
   const onSubmitHandler =async (event: FormEvent<HTMLFormElement>) =>{
+    setErrorMessage("")
     event.preventDefault()
     if(!elements || !stripe){
       return setErrorMessage("card form filupe")
@@ -118,6 +118,7 @@ const Pay = () => {
                   <CardCvcElement id="cvc" className="border p-2 rounded-lg" />
                 </div>
               </div>
+              <p className="text-red-600 font-semibold "> {errorMessage}</p>
               <Button type="submit" className="w-full mt-4 bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white ">
                 Continue
               </Button>

@@ -1,4 +1,5 @@
 import Pay from "@/components/layout/payment/Pay";
+import PaymentByProduct from "@/components/layout/payment/PaymentByProduct";
 import SectionLayout from "@/components/layout/SectionLayout";
 import CheckoutForm from "@/utils/CheckoutForm";
 import SriptProvider from "@/utils/stripeProvider";
@@ -12,12 +13,17 @@ const PaymentCard = () => {
   return (
     <div>
       <SectionLayout>
+        <div className="flex gap-2 bg-green-800 text-white">
+
         <Elements stripe={stripePromise}>
-          <div className="bg-green-800 text-white flex gap-2 ">
+          <div className=" flex gap-2 ">
             <Pay></Pay>
-            <div></div>
           </div>
         </Elements>
+            <div className="flex-grow">
+              <PaymentByProduct></PaymentByProduct>
+            </div>
+        </div>
       </SectionLayout>
     </div>
   );

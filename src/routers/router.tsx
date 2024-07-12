@@ -2,6 +2,7 @@ import App from "@/App";
 import PlantsDetails from "@/components/layout/category/PlantsDetails";
 import MainLayout from "@/components/layout/MainLayout";
 import PlantsCard from "@/components/layout/plants/PlantsCard";
+import Checkout from "@/Pages/Checkout";
 import HomePage from "@/Pages/HomePage";
 import PaymentCard from "@/Pages/Payments";
 import Plants from "@/Pages/Plants";
@@ -19,7 +20,11 @@ export const router = createBrowserRouter([
     {
       path: "/payment",
       element: <PaymentCard></PaymentCard>
-    }
+    },
+    {
+      path: "/checkout",
+      element: <Checkout></Checkout>
+    },
   ]
     
   },
