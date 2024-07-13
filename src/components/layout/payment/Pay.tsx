@@ -17,7 +17,6 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { StripeCardNumberElement} from '@stripe/stripe-js';
 
 const Pay = () => {
   const elements = useElements()
@@ -35,23 +34,32 @@ const Pay = () => {
     if(!elements || !stripe){
       return setErrorMessage("card form filupe")
     }
-    const cardNumberElement = elements.getElement(CardNumberElement);
-    const cardExpiryElement = elements.getElement(CardExpiryElement);
-    const cardCvcElement = elements.getElement(CardCvcElement);
-    
-    
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: 'card',
-      card: cardNumberElement as StripeCardNumberElement,
-    });
-    if (error) {
-      setErrorMessage(error.message || 'An unexpected error occurred.');
-    } else {
-      console.log(paymentMethod);
-      // Handle the successful creation of the payment method (send to server, etc.)
-      setErrorMessage(null);
-    }
-    console.log(errorMessage)
+    // const cardNumberElement = elements.getElement(CardNumberElement);
+    // const cardExpiryElement = elements.getElement(CardExpiryElement);
+    // const cardCvcElement = elements.getElement(CardCvcElement);
+    // const card = {
+    //   cardNumberElement, cardExpiryElement, cardCvcElement
+    // }
+    // const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment("client", {
+    //   payment_method:{
+    //     card: cardNumberElement,
+    //     billing_details:{}
+    //   }
+    // })
+
+
+    // const { error, paymentMethod } = await stripe.createPaymentMethod({
+    //   type: 'card',
+    //   card: cardNumberElement as StripeCardNumberElement,
+    // });
+    // if (error) {
+    //   setErrorMessage(error.message || 'An unexpected error occurred.');
+    // } else {
+    //   console.log(paymentMethod);
+    //   // Handle the successful creation of the payment method (send to server, etc.)
+    //   setErrorMessage(null);
+    // }
+    // console.log(errorMessage)
   }
   return (
     <div>

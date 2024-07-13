@@ -1,10 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import TodoRedutures from "./features/TodoSlider";
 import { baseApi } from "./api/Api";
+import CardReducer from "./features/CardSlice";
 export const store = configureStore({
     reducer:{
         [baseApi.reducerPath] : baseApi.reducer,
-        todos: TodoRedutures
+        CardData: CardReducer 
+        
     },
     middleware: (getDefaultMiddleWares) => getDefaultMiddleWares().concat(baseApi.middleware)
 })

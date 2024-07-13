@@ -3,8 +3,11 @@ import SectionLayout from "../SectionLayout";
 import { PiCurrencyDollarBold } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
+import { useAppDispatch } from "@/redux/hooks";
+import { quantityAdd, quantitymainus } from "@/redux/features/CardSlice";
 
 const PlantsDetails = () => {
+  const dispatch = useAppDispatch()
   return (
     <SectionLayout>
       <div>
@@ -66,11 +69,11 @@ const PlantsDetails = () => {
 
             <div className="flex p-2 justify-between rounded-lg  border-2 py-2 bg-inherit border-white">
               <div className="flex gap-4 items-center rounded-md">
-                <Button className="bg-white text-black hover:bg-green-800 ">
+                <Button onClick={()=> dispatch(quantitymainus(1))} className="bg-white text-black hover:bg-green-800 ">
                   <IoIosRemove className="hover:text-white  size-6 text-black" />
                 </Button>
                 <p>1</p>
-                <Button className="bg-white text-black hover:bg-green-800 hover:text-white ">
+                <Button onClick={()=> dispatch(quantityAdd(1))} className="bg-white text-black hover:bg-green-800 hover:text-white ">
                   <IoMdAdd className="hover:text-white  size-6 text-black" />
                 </Button>
               </div>

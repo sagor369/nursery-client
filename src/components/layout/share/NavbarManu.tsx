@@ -21,7 +21,7 @@ const NavbarManu = () => {
             </NavigationMenuItem>
             <NavigationMenuItem>
               <NavigationMenuTrigger className="hover: bg-green-400 bg-inherit">
-                <Link to={'/plants'}>Plants</Link> 
+                <Link to={'/product'}>Plants</Link> 
               </NavigationMenuTrigger>
               <NavigationMenuContent>
                 <ul className="grid w-[400px] gap-3 p-4 md:w-72 md:grid-cols-2 lg:w-96 bg-green-200">
