@@ -11,6 +11,7 @@ export type TPlants = {
   description: string;
   categoryId: string;
   imageUrl: string;
+  rating: number
 };
 
 export type TProducts = {

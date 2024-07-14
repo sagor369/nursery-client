@@ -10,6 +10,7 @@ const CategoryApi = baseApi.injectEndpoints({
           params: query,
         };
       },
+      providesTags: ["categorys"]
     }),
     getSingleCategory: build.query({
       query: ({ id }) => {
@@ -28,6 +29,7 @@ const CategoryApi = baseApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: ["categorys"]
     }),
     updateCategory: build.mutation({
       query: ({ id, body }) => {
@@ -37,6 +39,7 @@ const CategoryApi = baseApi.injectEndpoints({
           body,
         };
       },
+      invalidatesTags: ["categorys"]
     }),
     deleteCategory: build.mutation({
       query: ({ id }) => {
@@ -45,6 +48,7 @@ const CategoryApi = baseApi.injectEndpoints({
           method: "DELETE",
         };
       },
+      invalidatesTags: ["categorys"]
     }),
   }),
 });

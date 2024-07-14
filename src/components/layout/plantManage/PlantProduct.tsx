@@ -1,4 +1,4 @@
-import { SubmitHandler } from "react-hook-form";
+import { SubmitHandler} from "react-hook-form";
 import FormInput from "../share/FormInput";
 import FormManage from "../share/FormManage";
 import { Button } from "@/components/ui/button";
@@ -13,8 +13,9 @@ import {
 } from "@/components/ui/select";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useCreatePlantMutation, useGetPlantsQuery } from "@/redux/features/plantSlice";
+import { useCreatePlantMutation } from "@/redux/features/plantSlice";
 import { useGetcategoryQuery } from "@/redux/features/categorySlice";
+import FormTitle from "../share/FormTitle";
 type Tselect = {
   name: string 
   imageUrl: string 
@@ -24,18 +25,18 @@ type Tselect = {
 const PlantProduct = () => {
   const [category, setCategory] = useState("");
   const [errorMessage, setErrorMessage] =useState("")
-  const {data:result, isLoading:loading, isError:error} = useGetcategoryQuery(undefined)
-  const [data, {isError, isLoading, isSuccess}] = useCreatePlantMutation()
-  console.log(result)
+  const {data:result, } = useGetcategoryQuery(undefined)
+  const [data, {isError, isLoading, isSuccess, data: results}] = useCreatePlantMutation()
+  console.log(results)
   const selectValue = (value: string) => {
     setCategory(value);
   };
 
   const onsubmit: SubmitHandler<any> = async (event) => {
     const ApiKey = "35ad74456a84c96fea6c9d9aedd15a97";
-    const {imageUrl, ...propsData} = event
+    const {imageUrl,price, quantity, ...propsData} = event
     const image = imageUrl[0];
-    const url = `https://api.imgbb.com/1/upload?expiration=600&key=${ApiKey}`;
+    const url = `https://api.imgbb.com/1/upload?key=${ApiKey}`;
     const formData = new FormData();
     formData.append("image", image);
     const res = await fetch(url, { method: "POST", body: formData });
@@ -43,10 +44,12 @@ const PlantProduct = () => {
     if (!result.success) {
       return setErrorMessage(result.error);
     }
-    data({
+    await data({
       ...propsData,
+      price: parseInt(price),
+      quantity: parseInt(quantity),
       imageUrl: result.data.url,
-      category
+      categoryId: category
     });
   };
   if(isSuccess){
@@ -55,20 +58,22 @@ const PlantProduct = () => {
   if(isError){
     toast.error('My Plants create fail');
   }
-  if(isLoading){
+  if(isLoading ){
    return <div className="flex items-center justify-center">
       <p>Loading.....</p>
     </div>
   }
+  console.log(errorMessage)
   return (
     <div className="border max-w-2xl mx-auto  p-4 rounded-md">
+      <FormTitle title="Create a Plant Data"></FormTitle>
       <FormManage submitHandler={onsubmit}>
         <div>
           <label className="">
-            Category name
+            Plant name
             <FormInput
               name="name"
-              placeholder="enter your category name"
+              placeholder="enter your Plant name"
               type="text"
               value=""
             />
@@ -76,10 +81,10 @@ const PlantProduct = () => {
         </div>
         <div>
           <label>
-            Category Description
+            Plant Description
             <FormInput
               name="description"
-              placeholder="category description "
+              placeholder="Plant description "
               type="text"
               value=""
             />
@@ -90,7 +95,7 @@ const PlantProduct = () => {
             Plant Price
             <FormInput
               name="price"
-              placeholder="category description "
+              placeholder="Plant description "
               type="number"
               value=""
             />
@@ -107,7 +112,7 @@ const PlantProduct = () => {
         </div>
         <div className="grid grid-cols-2 gap-2 items-center">
           <label htmlFor="">
-            Category Photo
+            Plant Photo
             <FormInput
               name="imageUrl"
               placeholder="enter your photo"

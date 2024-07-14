@@ -2,9 +2,24 @@ import { Button } from "@/components/ui/button";
 import SectionLayout from "../SectionLayout";
 import CategoryCard from "../share/CategoryCard";
 import SectionTitle from "../share/SectionTitle";
-import { Link } from "react-router-dom";
-
+import { useGetPlantsQuery } from "@/redux/features/plantSlice";
+import { toast } from "sonner";
+import { TPlants } from "../plantManage/typex";
+interface TPlant extends TPlants {
+  _id: string;
+} 
 const LetestCategory = () => {
+  const {data:result,isError, isLoading } = useGetPlantsQuery(undefined) 
+  if (isError) {
+    toast.error("My cagetory create fail");
+  }
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center">
+        <p>Loading.....</p>
+      </div>
+    );
+  }
   return (
     <SectionLayout>
       <div className="bg-white rounded-md">
@@ -12,8 +27,8 @@ const LetestCategory = () => {
           <SectionTitle title={"Latest Plants"}></SectionTitle>
         </div>
         <div className="bg-green-800 rounded-md p-4 grid grid-cols-4 gap-2">
-          {Array.from({ length: 8 }).map((_, index) => (
-            <CategoryCard key={index}></CategoryCard>
+          {result?.data?.map((item:TPlant) => (
+            <CategoryCard key={item._id} item={item} ></CategoryCard>
           ))}
         </div>
         <div className="flex items-center justify-center py-4">

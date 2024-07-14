@@ -3,11 +3,43 @@ import SectionLayout from "../SectionLayout";
 import { PiCurrencyDollarBold } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
-import { useAppDispatch } from "@/redux/hooks";
-import { quantityAdd, quantitymainus } from "@/redux/features/CardSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import {
+  addToCard,
+} from "@/redux/features/CardSlice";
+import { useGetSinglePlantQuery } from "@/redux/features/plantSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { toast } from "sonner";
 
 const PlantsDetails = () => {
-  const dispatch = useAppDispatch()
+  const [totalQuantity, setQuantity] = useState(1)
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch();
+  const cardData = useAppSelector((state) => state.CardData)
+  console.log(cardData)
+  const { id } = useParams();
+  const { data: result, isLoading } = useGetSinglePlantQuery(id);
+  
+  const cardAddProduct = () =>{
+    dispatch(addToCard({...result, totalQuantity}))
+    toast.success("product add to card")
+  }
+
+  const handlepayment = () =>{
+  dispatch(addToCard({...result.data, totalQuantity}))
+  navigate("/payment")
+
+
+  }
+  
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center">
+        <p>Loading.....</p>
+      </div>
+    );
+  }
   return (
     <SectionLayout>
       <div>
@@ -15,7 +47,7 @@ const PlantsDetails = () => {
           <div className="flex items-center justify-center p-4">
             <img
               className="h-[500px] rounded-md w-full "
-              src="/src/assets/2.jpg"
+              src={result.data.imageUrl}
               alt=""
             />
           </div>
@@ -23,19 +55,14 @@ const PlantsDetails = () => {
             <div>
               <div className="text-2xl font-bold font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2">
                 <h2 className="col-span-1">Name: </h2>
-                <h2 className="col-span-4">sun flower</h2>
+                <h2 className="col-span-4">{result.data.name}</h2>
               </div>
               <div className=" font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2 items-start justify-between">
                 <h2 className="text-base font-bold  col-span-1">
                   {" "}
                   description:{" "}
                 </h2>
-                <p className="col-span-4">
-                  t is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point of using Lorem Ipsum is that it has a more-or-less
-                  normal distribution of letters, as opposed
-                </p>
+                <p className="col-span-4">{result.data.description}</p>
               </div>
               <div className="grid grid-cols-5 gap-1 ">
                 <h2 className="text-base text-gray-700 font-bold col-span-1">
@@ -53,7 +80,7 @@ const PlantsDetails = () => {
                   Quantity:
                 </h2>
                 <p className="border-2 border-white px-2 font-semibold text-lg">
-                  35 pic
+                  {result.data.quantity} pic
                 </p>
               </div>
               <div className=" font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2">
@@ -62,29 +89,38 @@ const PlantsDetails = () => {
                 </h2>
                 <div className="flex items-center border-2 bg-white px-1">
                   <PiCurrencyDollarBold className="size-5 text-red-600 font-bold" />
-                  <p className="text-2xl text-red-600 font-bold "> 350</p>
+                  <p className="text-2xl text-red-600 font-bold ">
+                    {" "}
+                    {result.data.price}
+                  </p>
                 </div>
               </div>
             </div>
 
             <div className="flex p-2 justify-between rounded-lg  border-2 py-2 bg-inherit border-white">
               <div className="flex gap-4 items-center rounded-md">
-                <Button onClick={()=> dispatch(quantitymainus(1))} className="bg-white text-black hover:bg-green-800 ">
+                <Button
+                disabled ={ totalQuantity <= 1}
+                  onClick={() => setQuantity(totalQuantity-1)}
+                  className="bg-white text-black hover:bg-green-800 "
+                >
                   <IoIosRemove className="hover:text-white  size-6 text-black" />
                 </Button>
-                <p>1</p>
-                <Button onClick={()=> dispatch(quantityAdd(1))} className="bg-white text-black hover:bg-green-800 hover:text-white ">
+                <p> {totalQuantity}</p>
+                <Button
+                disabled ={ totalQuantity >= result.data.quantity}
+                  onClick={() => setQuantity(totalQuantity + 1)}
+                  className="bg-white text-black hover:bg-green-800 hover:text-white "
+                >
                   <IoMdAdd className="hover:text-white  size-6 text-black" />
                 </Button>
               </div>
               <div>
-                <Button
-                
-                  className="text-white mr-4 bg-green-600 font-bold border  hover:text-green-800 hover:bg-white "
-                >
+                <Button onClick={handlepayment} className="text-white mr-4 bg-green-600 font-bold border  hover:text-green-800 hover:bg-white ">
                   Buy Now
                 </Button>
                 <Button
+                  onClick={cardAddProduct}
                   variant="outline"
                   className="bg-white text-green-600 font-bold border border-green-800 hover:bg-green-800 hover:text-white "
                 >

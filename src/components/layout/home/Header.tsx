@@ -10,8 +10,22 @@ import "swiper/css/navigation";
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import SectionLayout from "../SectionLayout";
 import "@/components/style/swiperSlider.css";
-
+import { useGetcategoryQuery } from "@/redux/features/categorySlice";
+import { toast } from "sonner";
+import { TPlantCategory } from "../plantManage/typex";
+interface TCategory extends TPlantCategory {
+  _id: string;
+} 
 const Header = () => {
+  const {data:result, isLoading, isError} = useGetcategoryQuery(undefined)
+  if(isError){
+    toast.error('My cagetory create fail');
+  }
+  if(isLoading){
+   return <div className="flex items-center justify-center">
+      <p>Loading.....</p>
+    </div>
+  }
   return (
     <SectionLayout >
       <Swiper
@@ -26,29 +40,27 @@ const Header = () => {
         navigation={true}
         className="w-full text-center h-[80vh] bg-green-800 text-white rounded-md"
       >
-        {Array.from({ length: 6 }).map((_, index) => (
+        {result?.data?.map((item: TCategory) => (
+
           <SwiperSlide>
-            <div className="font-barlow flex justify-center items-center gap-2">
+            <div className="font-barlow flex justify-center items-center gap-2 ">
               <img
-                className="w-1/3 rounded-l-md"
-                src={`/src/assets/${index + 1}.jpg`}
+                className="w-1/3 rounded-l-md h-[500px]"
+                src={item.imageUrl}
                 alt=""
               />
               <div className="w-1/3 p-4">
-                <h2 className="text-2xl   font-semibold pb-2">Sun Flower</h2>
+                <h2 className="text-2xl   font-semibold pb-2">{item.name}</h2>
                 <p className="text-base font-medium ">
-                  It is a long established fact that a reader will be distracted
-                  by the readable content of a page when looking at its layout.
-                  The point
+                  {item.description}
                 </p>
               </div>
               <img
-                className="w-1/3 rounded-r-md"
-                src={`/src/assets/${index + 1}.jpg`}
+                className="w-1/3 rounded-r-md h-[500px]"
+                src={item.imageUrl}
                 alt=""
               />
             </div>
-            Slide {index + 1}
           </SwiperSlide>
         ))}
       </Swiper>

@@ -1,5 +1,3 @@
-import SectionLayout from "@/components/layout/SectionLayout";
-import CategoryCard from "@/components/layout/share/CategoryCard";
 import NavbarManu from "@/components/layout/share/NavbarManu";
 import SearchBar from "@/components/layout/share/SearchBar";
 import { Link, Outlet } from "react-router-dom";

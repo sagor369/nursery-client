@@ -15,8 +15,24 @@ import SectionTitle from "../share/SectionTitle";
 
 // react icons
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa";
+import { useGetcategoryQuery } from "@/redux/features/categorySlice";
+import { toast } from "sonner";
+import { TPlantCategory } from "../plantManage/typex";
+
+interface TCategory extends TPlantCategory {
+    _id: string;
+  } 
 
 const PlantsType = () => {
+  const {data:result, isLoading, isError} = useGetcategoryQuery(undefined)
+  if(isError){
+    toast.error('My cagetory create fail');
+  }
+  if(isLoading){
+   return <div className="flex items-center justify-center">
+      <p>Loading.....</p>
+    </div>
+  }
   return (
     <div>
       <SectionLayout>
@@ -59,17 +75,18 @@ const PlantsType = () => {
             }}
             
           >
-            {Array.from({ length: 6 }).map((_, index) => (
-              <SwiperSlide>
+            {result?.data?.map((item:TCategory) => (
+              
+              <SwiperSlide key={item._id}>
                 <Link to={"/#"}>
                   <div className="bg-white rounded-md">
                     <img
                       className="h-56 w-full rounded-t-md"
-                      src={`/src/assets/${index + 1}.jpg`}
+                      src={item?.imageUrl}
                       alt=""
                     />
                     <h2 className="text-xl font-semibold px-4 py-2 text-green-950">
-                      Rose flower
+                      {item.name}
                     </h2>
                   </div>
                 </Link>

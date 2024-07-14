@@ -37,8 +37,13 @@ const NavbarManu = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link to={"/blog"}>
+              <Link to={"/blog"} className="px-4">
                 <NavigationMenuLink>Blog</NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <Link to={"/manage"}>
+                <NavigationMenuLink>Manage Product</NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>

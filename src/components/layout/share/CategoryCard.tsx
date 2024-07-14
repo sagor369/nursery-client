@@ -10,28 +10,28 @@ import { useAppDispatch } from "@/redux/hooks";
 import { ratingRender } from "@/utils/ratingsCard";
 import { PiCurrencyDollarBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { TPlants } from "../plantManage/typex";
+import { toast } from "sonner";
 
-const TPlants = {
-  name: "string",
-  price: 10,
-  quantity: 1,
-  description: "string",
-  categoryId: "string",
-  imageUrl: "string",
-  _id:"001"
-};
- 
-const CategoryCard = () => {
+
+interface TPlant extends TPlants {
+  _id: string;
+}
+const CategoryCard = ({item}:{item:TPlant}) => {
   const dispatch = useAppDispatch()
+  const cardAddProduct = () =>{
+    dispatch(addToCard({...item, totalQuantity:1}))
+    toast.success("product add to card")
+  }
   return (
     <div>
       <Card className=" p-2 bg-primary-gradian border-none">
         <CardHeader className="p-0">
-          <Link to={"/product/plants/1"}>
+          <Link to={`/product/plants/${item._id}`}>
             <div>
               <img
                 className="h-44 w-full rounded-t-md"
-                src="/src/assets/1.jpg"
+                src={item.imageUrl}
                 alt=""
               />
             </div>
@@ -39,18 +39,18 @@ const CategoryCard = () => {
         </CardHeader>
         <CardContent className="bg-white p-2">
           <h2 className="text-xl font-bold text-gray-800 pb-1 h-8 overflow-hidden ">
-            hello alkfgj alskfg lksag laskhfg lashkg lakjsh ;l{" "}
+            {item.name}
           </h2>
           <div className="flex gap-2 pb-2">{ratingRender(4)}</div>
           <div className="bg-primary-gradian p-1 inline-block">
             <div className="flex items-center border-2 bg-white px-1">
               <PiCurrencyDollarBold className="size-5 text-red-600 font-bold" />
-              <p className="text-2xl text-red-600 font-bold "> 350</p>
+              <p className="text-2xl text-red-600 font-bold ">{item.price} </p>
             </div>
           </div>
         </CardContent>
         <CardFooter className="flex p-2 justify-between rounded-b-lg bg-white border-t-2 py-2">
-          <Button onClick={()=> dispatch(addToCard(TPlants))} className="bg-green-500 text-stone-100 font-bold border border-green-800 hover:bg-green-800 hover:text-white ">
+          <Button onClick={cardAddProduct} className="bg-green-500 text-stone-100 font-bold border border-green-800 hover:bg-green-800 hover:text-white ">
             Add to Card
           </Button>
           <div className="flex gap-4 items-center border rounded-md">
@@ -58,7 +58,7 @@ const CategoryCard = () => {
               variant="outline"
               className="bg-white text-green-600 font-bold border border-green-800 hover:bg-green-800 hover:text-white "
             >
-              <Link to={"/product/plants/i"}>Detaills</Link>
+              <Link to={`/product/plants/${item._id}`}>Detaills</Link>
             </Button>
           </div>
         </CardFooter>

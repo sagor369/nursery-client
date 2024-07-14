@@ -10,16 +10,16 @@ interface FormProps {
 const FormInput = ({ name, type, placeholder, value }: FormProps) => {
   const {
     control,
-    formState: { errors },
   } = useFormContext();
   return (
     <Controller
       control={control}
       name={name}
       render={({ field }) => (
-        type === "file" ? <input type={type} onChange={(e) => field.onChange(e.target.files)} className="bg-white w-full text-black rounded-md py-1" placeholder={placeholder}></input>:
+        type === "file" ? <input type={type} required onChange={(e) => field.onChange(e.target.files)} className="bg-white w-full text-black rounded-md py-1 px-2" placeholder={placeholder}></input>:
         <Input
           type={type}
+          required
           className="text-black w-full"
           placeholder={placeholder}
           {...field}

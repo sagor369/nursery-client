@@ -1,34 +1,31 @@
-import { Link } from "react-router-dom";
+import { useGetPlantsQuery } from "@/redux/features/plantSlice";
 import SectionLayout from "../SectionLayout";
 import CategoryCard from "../share/CategoryCard";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { TPlants } from "../plantManage/typex";
+
+interface TPlant extends TPlants {
+  _id: string;
+}
 
 const PlantsCard = () => {
-  const {register, handleSubmit} = useForm()
-  const onSubmit = (e:any) =>{
-   const formData = new FormData()
-   formData.append("image", e.image)
-   for (let pair of formData.entries()) {
-    console.log(pair[0]+ ', ' + pair[1]);
-  }
+  const {data, isLoading , isError} = useGetPlantsQuery(undefined)
+  console.log(isError)
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center">
+        <p>Loading.....</p>
+      </div>
+    );
   }
   return (
     <SectionLayout>
       <div>
         <div className="bg-green-800 rounded-md p-4 grid grid-cols-4 gap-2">
-          {Array.from({ length: 12 }).map((_, index) => (
-            <CategoryCard key={index}></CategoryCard>
+          {data?.data?.map((item: TPlant) => (
+            <CategoryCard key={item._id} item = {item}></CategoryCard>
           ))}
         </div>
-        <div>
-          <form action="" onSubmit={handleSubmit(onSubmit)}>
-            <input {...register("name")} type="text" />
-            <input {...register("password")} type="password" />
-            <input {...register("image")} type="file" />
-            <Button> submit</Button>
-          </form>
-        </div>
+        
       </div>
     </SectionLayout>
   );

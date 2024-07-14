@@ -1,7 +1,6 @@
 import PlantSiteNav from "@/components/layout/plantManage/PlantSiteNav";
 import SectionLayout from "@/components/layout/SectionLayout";
 import { Separator } from "@/components/ui/separator";
-import { ReactNode } from "react";
 import { Outlet } from "react-router-dom";
 
 const sidebarNavItems = [

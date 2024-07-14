@@ -12,7 +12,8 @@ const PlantsApi = baseApi.injectEndpoints({
       },
     }),
     getSinglePlant: build.query({
-      query: ({ id }) => {
+      query: ( id ) => {
+        console.log(id)
         return {
           url: `/plants/${id}`,
           method: "GET",
