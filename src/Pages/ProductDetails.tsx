@@ -1,4 +1,4 @@
-import PlantsDetails from '@/components/layout/category/PlantsDetails';
+import PlantsDetails from '@/components/layout/singlePlants/PlantsDetails';
 import LetestCategory from '@/components/layout/home/LetestCategory';
 
 const ProductDetails = () => {

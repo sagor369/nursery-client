@@ -13,7 +13,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 const PlantsDetails = () => {
-  const [totalQuantity, setQuantity] = useState(1)
+  const [totalQuantity, setQuantity] = useState<number>(1)
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
   const cardData = useAppSelector((state) => state.CardData)
@@ -22,12 +22,21 @@ const PlantsDetails = () => {
   const { data: result, isLoading } = useGetSinglePlantQuery(id);
   
   const cardAddProduct = () =>{
-    dispatch(addToCard({...result, totalQuantity}))
+    const total = {
+      totalAmount: result.data.price* totalQuantity,
+      totalQuantity
+    }
+    console.log(total)
+    dispatch(addToCard({...result.data, ...total}))
     toast.success("product add to card")
   }
 
   const handlepayment = () =>{
-  dispatch(addToCard({...result.data, totalQuantity}))
+    const total = {
+      totalAmount: result.data.price* totalQuantity,
+      totalQuantity
+    }
+  dispatch(addToCard({...result.data, ...total}))
   navigate("/payment")
 
 

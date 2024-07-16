@@ -7,9 +7,14 @@ import { toast } from "sonner";
 import { TPlants } from "../plantManage/typex";
 interface TPlant extends TPlants {
   _id: string;
-} 
+}
 const LetestCategory = () => {
-  const {data:result,isError, isLoading } = useGetPlantsQuery(undefined) 
+  const {
+    data: result,
+    isError,
+    isLoading,
+  } = useGetPlantsQuery({ searchTerm: "", categoryId: "" });
+  console.log(result);
   if (isError) {
     toast.error("My cagetory create fail");
   }
@@ -27,15 +32,18 @@ const LetestCategory = () => {
           <SectionTitle title={"Latest Plants"}></SectionTitle>
         </div>
         <div className="bg-green-800 rounded-md p-4 grid grid-cols-4 gap-2">
-          {result?.data?.map((item:TPlant) => (
-            <CategoryCard key={item._id} item={item} ></CategoryCard>
+          {result?.data?.slice(0, 8).map((item: TPlant) => (
+            <CategoryCard key={item._id} item={item}></CategoryCard>
           ))}
         </div>
-        <div className="flex items-center justify-center py-4">
-          <Button className="bg-green-500 text-gray-800 font-bold hover:bg-green-800 hover:text-white">
-            See more
-          </Button>
-        </div>
+
+        {result?.data?.langth > 8 && (
+          <div className="flex items-center justify-center py-4">
+            <Button className="bg-green-500 text-gray-800 font-bold hover:bg-green-800 hover:text-white">
+              See more
+            </Button>
+          </div>
+        )}
       </div>
     </SectionLayout>
   );

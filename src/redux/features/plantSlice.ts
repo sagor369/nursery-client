@@ -3,11 +3,20 @@ import { baseApi } from "../api/Api";
 const PlantsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getPlants: build.query({
-      query: (query) => {
+      query: ({categoryId, searchTerm}) => {
+        const params = new URLSearchParams()
+        if(searchTerm){
+          console.log(searchTerm)
+          params.append('searchTerm', searchTerm)
+        }
+        if(categoryId){
+          console.log("category:", )
+          params.append('categoryId', categoryId)
+        }
         return {
           url: "/plants",
           method: "GET",
-          params: query,
+          params
         };
       },
     }),

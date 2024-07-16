@@ -19,8 +19,13 @@ interface TPlant extends TPlants {
 }
 const CategoryCard = ({item}:{item:TPlant}) => {
   const dispatch = useAppDispatch()
+
   const cardAddProduct = () =>{
-    dispatch(addToCard({...item, totalQuantity:1}))
+    const total = {
+      totalAmount: item.price,
+      totalQuantity: 1
+    }
+    dispatch(addToCard({...item,...total }))
     toast.success("product add to card")
   }
   return (

@@ -6,7 +6,6 @@ const UserBar = () => {
   const {plants} = useAppSelector((state) => state.CardData)
   return (
     <div className="flex items-center gap-2 ">
-      <Button className="bg-inherit border hover:bg-green-900">Login</Button>
       <Button className="bg-white text-green-800 hover:bg-slate-300">
       <Link to={"/checkout"} className="flex ">
        <sup className="text-red-500 text-base font-bold">{plants.length} </sup>

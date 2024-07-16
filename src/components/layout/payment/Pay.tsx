@@ -1,11 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { FaMoneyBillWave } from "react-icons/fa";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsTrigger, TabsList, TabsContent } from "@/components/ui/tabs";
@@ -17,50 +12,114 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
+import { removeToCard, TPlants } from "@/redux/features/CardSlice";
+import { usePaymentCreateMutation,  } from "@/redux/features/paymentSlice";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/redux/hooks";
+import { useNavigate } from "react-router-dom";
+interface TProps {
+  totalcount: {
+    totalPic: number;
+    totaPrice: number;
+  };
+  plants: TPlants[];
+  clintData:any
+}
+type TPayuser = {
+  product: string
+    quantity: number
+    totalAmount: number
+}
 
-const Pay = () => {
-  const elements = useElements()
-  const stripe = useStripe()
+const Pay = ({ totalcount, plants, clintData }: TProps) => {
+  const elements = useElements();
+  const stripe = useStripe();
   const [checked, isChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [paymentData, {data:result, isError:PaymentError, isLoading:PaymentLoading}] = usePaymentCreateMutation()
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedvalue = e.target.checked;
     isChecked(checkedvalue);
   };
 
-  const onSubmitHandler =async (event: FormEvent<HTMLFormElement>) =>{
-    setErrorMessage("")
-    event.preventDefault()
-    if(!elements || !stripe){
-      return setErrorMessage("card form filupe")
-    }
-    // const cardNumberElement = elements.getElement(CardNumberElement);
-    // const cardExpiryElement = elements.getElement(CardExpiryElement);
-    // const cardCvcElement = elements.getElement(CardCvcElement);
-    // const card = {
-    //   cardNumberElement, cardExpiryElement, cardCvcElement
-    // }
-    // const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment("client", {
-    //   payment_method:{
-    //     card: cardNumberElement,
-    //     billing_details:{}
-    //   }
-    // })
-
-
-    // const { error, paymentMethod } = await stripe.createPaymentMethod({
-    //   type: 'card',
-    //   card: cardNumberElement as StripeCardNumberElement,
-    // });
-    // if (error) {
-    //   setErrorMessage(error.message || 'An unexpected error occurred.');
-    // } else {
-    //   console.log(paymentMethod);
-    //   // Handle the successful creation of the payment method (send to server, etc.)
-    //   setErrorMessage(null);
-    // }
-    // console.log(errorMessage)
+  const payUser:TPayuser[] = [];
+  for (let plant of plants) {
+    payUser.push({
+      product: plant._id,
+      quantity: plant.quantity,
+      totalAmount: plant.totalAmount,
+    });
   }
+
+console.log(clintData)
+const userData = {
+  products: [...payUser],
+  quantitys: totalcount.totalPic,
+  paymentId: clintData?.data?.client_secret,
+  totalAmount:totalcount.totaPrice
+}
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    setErrorMessage("");
+    if (!elements || !stripe) {
+      return setErrorMessage("card form filupe");
+    }
+
+    
+    
+    // const cardElement = elements.getElement(CardElement);
+    // console.log("element", elements)
+    // console.log(cardElement)
+   
+    // const { error, paymentMethod } = await stripe.createPaymentMethod({
+    //   type: "card",
+    //   card: cardElement,
+    //   billing_details: {
+    //     name: (event.target as HTMLFormElement).FullName.value,
+    //     email: (event.target as HTMLFormElement).email.value,
+    //   },
+    // });
+    // console.log("PaymentIntent", paymentMethod, "confarm", error);
+
+    // if (error) {
+    //   setLoading(false);
+    //   return;
+    // }
+    // const { paymentIntent, error: confirmError } =
+    //   await stripe.confirmCardPayment(clintData.data.client_secret, {
+    //     payment_method: paymentMethod.id,
+    //   });
+    // if (confirmError) {
+    //   setLoading(false);
+    //   return;
+    // }
+    
+    await paymentData({...userData,   email : (event.target as HTMLFormElement).email.value,
+    })
+    if(PaymentLoading){
+      return <div className="flex items-center justify-center"> loading....</div>
+    }
+   
+    if(result){
+      plants.map(item =>{
+        dispatch(removeToCard(item._id))
+      })
+      toast.success(`payment success your id ${result.data._id}`)
+      navigate("/")
+    }
+     if(PaymentError){
+      toast.error("payment create faile")
+    }
+
+    setLoading(false);
+
+    console.log(errorMessage);
+  };
+
   return (
     <div>
       <Tabs defaultValue="card" className="w-[560px]">
@@ -102,37 +161,46 @@ const Pay = () => {
               <CardTitle>Account</CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
-              <form  onSubmit={onSubmitHandler}>
-
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input name= 'name' id="name" placeholder="First Last" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="city">City</Label>
-                <Input name="city" id="city" placeholder="" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="number">Card number</Label>
-                <CardNumberElement id="number"  className="border rounded-lg p-3" />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
+              <form onSubmit={onSubmitHandler}>
                 <div className="grid gap-2">
-                  <Label >Expires</Label>
-                  <CardExpiryElement className="border p-2 rounded-lg"/>
+                  <Label htmlFor="FullName">Name</Label>
+                  <Input
+                    name="FullName"
+                    id="FullName"
+                    placeholder="First Last"
+                  />
                 </div>
                 <div className="grid gap-2">
-                  <Label htmlFor="cvc">CVC</Label>
-                  <CardCvcElement id="cvc" className="border p-2 rounded-lg" />
+                  <Label htmlFor="email">Email</Label>
+                  <Input name="email" id="email" placeholder="" />
                 </div>
-              </div>
-              <p className="text-red-600 font-semibold "> {errorMessage}</p>
-              <Button type="submit" className="w-full mt-4 bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white ">
-                Continue
-              </Button>
+                <div className="grid gap-2 my-2">
+                  <Label htmlFor="number">Card number</Label>
+                  <CardNumberElement id="card-number-element" className="border p-2 mt-1" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="grid gap-2">
+                    <Label>Expires</Label>
+                    <CardExpiryElement className="border p-2 rounded-lg" />
+                  </div>
+                  <div className="grid gap-2">
+                    <Label htmlFor="cvc">CVC</Label>
+                    <CardCvcElement
+                      id="cvc"
+                      className="border p-2 rounded-lg"
+                    />
+                  </div>
+                </div>
+                <p className="text-red-600 font-semibold "> {errorMessage}</p>
+                <Button
+                  disabled={loading}
+                  type="submit"
+                  className="w-full mt-4 bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white "
+                >
+                  Continue
+                </Button>
               </form>
             </CardContent>
-           
           </Card>
         </TabsContent>
 

@@ -20,13 +20,11 @@ const CheckoutCard = () => {
   const {plants} = useAppSelector((state)=> state.CardData)
   const dispatch = useAppDispatch()
   const totalcount = plants.reduce((acc, item) =>{
-     acc = acc + item.totalQuantity
+     acc.totalPic = acc.totalPic + item.totalQuantity
+     acc.totaPrice = acc.totaPrice + item.totalAmount
      return acc
-  }, 0)
-  const totalAmount = plants.reduce((acc, item) =>{
-     acc = acc + (item.totalQuantity* item.price)
-     return acc
-  }, 0)
+  }, {totaPrice: 0, totalPic:0})
+
   
   return (
     <SectionLayout>
@@ -82,13 +80,13 @@ const CheckoutCard = () => {
                     <p className="text-black bg-white rounded-md py-3 px-5 font-bold">
                       {item.totalQuantity}
                     </p>
-                    <Button onClick={()=>dispatch(quantityAdd(item._id))} className="hover:bg-white hover:text-black  border text-white bg-transparent">
+                    <Button disabled={item.quantity <= item.totalQuantity} onClick={()=>dispatch(quantityAdd(item._id))} className="hover:bg-white hover:text-black  border text-white bg-transparent">
                       <IoMdAdd className="hover:bg-white  size-6 text-white hover:text-black" />
                     </Button>
                   </div>
                 </TableCell>
                 <TableCell className=" text-right">
-                 ${item.price * item.totalQuantity}
+                 ${(item.totalAmount).toFixed(2)}
                 </TableCell>
                 <TableCell className=" text-right">
                   <div onClick={()=>dispatch(removeToCard(item._id))} className=" flex  justify-end">
@@ -105,13 +103,13 @@ const CheckoutCard = () => {
               </TableCell>
               <TableCell className="text-center font-bold text-white text-xl">
                 {" "}
-                {totalcount} pic{" "}
+                {totalcount.totalPic} pic{" "}
               </TableCell>
               <TableCell
                 colSpan={2}
                 className="text-center font-bold text-white text-xl"
               >
-                $ {totalAmount}
+                $ {(totalcount.totaPrice).toFixed(2)}
               </TableCell>
             </TableRow>
           </TableFooter>

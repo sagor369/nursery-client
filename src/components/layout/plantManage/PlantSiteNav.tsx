@@ -16,7 +16,7 @@ const PlantSiteNav = ({ className, items, ...props }: SidebarNavProps) => {
     return (
         <nav
         className={cn(
-          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
+          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 h-full border-r min-h-[80vh]",
           className
         )}
         {...props}

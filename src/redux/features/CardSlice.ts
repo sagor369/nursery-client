@@ -9,6 +9,7 @@ export type TPlants = {
   categoryId: string;
   imageUrl: string;
   totalQuantity: number;
+  totalAmount: number;
 };
 
 type TInit = {
@@ -41,6 +42,7 @@ const selectCard = createSlice({
       if (findData) {
         console.log(findData, id);
         findData.totalQuantity = findData.totalQuantity + 1;
+        findData.totalAmount = findData.price* findData.totalQuantity
       }
     },
     quantitymainus: (state, action) => {
@@ -48,6 +50,7 @@ const selectCard = createSlice({
       const findData = state.plants.find(({ _id }) => _id === id);
       if (findData && findData.totalQuantity > 1) {
         findData.totalQuantity = findData.totalQuantity - 1;
+        findData.totalAmount = findData.price* findData.totalQuantity
       }
     },
   },

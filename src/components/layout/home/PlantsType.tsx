@@ -78,7 +78,7 @@ const PlantsType = () => {
             {result?.data?.map((item:TCategory) => (
               
               <SwiperSlide key={item._id}>
-                <Link to={"/#"}>
+                <Link to={`/product?&categoryId=${item._id}`}>
                   <div className="bg-white rounded-md">
                     <img
                       className="h-56 w-full rounded-t-md"
