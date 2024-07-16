@@ -14,7 +14,6 @@ const LetestCategory = () => {
     isError,
     isLoading,
   } = useGetPlantsQuery({ searchTerm: "", categoryId: "" });
-  console.log(result);
   if (isError) {
     toast.error("My cagetory create fail");
   }

@@ -40,7 +40,6 @@ const selectCard = createSlice({
       const id = action.payload;
       const findData = state.plants.find((item) => item._id === id);
       if (findData) {
-        console.log(findData, id);
         findData.totalQuantity = findData.totalQuantity + 1;
         findData.totalAmount = findData.price* findData.totalQuantity
       }

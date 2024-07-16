@@ -33,7 +33,6 @@ const SearchBar = () => {
   const selectValue = (value: string) => {
     setCategory(value);
   };
-  console.log(category);
   return (
     <div className=" flex items-center justify-center">
       <form

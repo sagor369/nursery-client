@@ -3,15 +3,19 @@ import { baseApi } from "../api/Api";
 const PlantsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getPlants: build.query({
-      query: ({categoryId, searchTerm}) => {
+      query: ({categoryId, searchTerm, page, limit}) => {
         const params = new URLSearchParams()
         if(searchTerm){
-          console.log(searchTerm)
           params.append('searchTerm', searchTerm)
         }
         if(categoryId){
-          console.log("category:", )
           params.append('categoryId', categoryId)
+        }
+        if(page){
+          params.append('page', page)
+        }
+        if(limit){
+          params.append('limit', limit)
         }
         return {
           url: "/plants",
@@ -22,7 +26,6 @@ const PlantsApi = baseApi.injectEndpoints({
     }),
     getSinglePlant: build.query({
       query: ( id ) => {
-        console.log(id)
         return {
           url: `/plants/${id}`,
           method: "GET",

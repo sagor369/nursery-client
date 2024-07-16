@@ -26,8 +26,7 @@ const PlantProduct = () => {
   const [category, setCategory] = useState("");
   const [errorMessage, setErrorMessage] =useState("")
   const {data:result, } = useGetcategoryQuery(undefined)
-  const [data, {isError, isLoading, isSuccess, data: results}] = useCreatePlantMutation()
-  console.log(results)
+  const [data, {isError, isLoading, isSuccess}] = useCreatePlantMutation()
   const selectValue = (value: string) => {
     setCategory(value);
   };

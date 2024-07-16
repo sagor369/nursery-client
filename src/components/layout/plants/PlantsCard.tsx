@@ -3,7 +3,6 @@ import SectionLayout from "../SectionLayout";
 import CategoryCard from "../share/CategoryCard";
 import { TPlants } from "../plantManage/typex";
 import { useLocation,} from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import PaginationPage from "../share/Pagination";
 
 interface TPlant extends TPlants {
@@ -15,7 +14,11 @@ const PlantsCard = () => {
   const query =new URLSearchParams(location.search)
   const categoryId = query.get("categoryId")
   const searchTerm = query.get("searchTerm")
-  const {data, isLoading} = useGetPlantsQuery({searchTerm, categoryId})
+  const page = query.get("page")
+  const limit = 8
+  const {data, isLoading} = useGetPlantsQuery({searchTerm, categoryId, page, limit})
+  const {data:result} = useGetPlantsQuery({searchTerm})
+  const totalPage = Math.ceil(result?.data?.length /limit)
   if (isLoading) {
     return (
       <div className="flex items-center justify-center">
@@ -23,7 +26,7 @@ const PlantsCard = () => {
       </div>
     );
   }
-  if(data.data.length === 0){
+  if(data?.data?.length === 0){
     return (
       <div className="flex items-center justify-center">
         <p>No More Data</p>
@@ -38,14 +41,11 @@ const PlantsCard = () => {
             <CategoryCard key={item._id} item = {item}></CategoryCard>
           ))}
         </div>
-        {data?.data?.langth > 6 && (
+        {totalPage > 1 && (
           <div className="flex items-center justify-center py-4">
-            <Button className="bg-green-500 text-gray-800 font-bold hover:bg-green-800 hover:text-white">
-              See more
-            </Button>
+            <PaginationPage page={page} totalPage={totalPage} ></PaginationPage>
           </div>
         )}
-        <PaginationPage></PaginationPage>
         
       </div>
     </SectionLayout>

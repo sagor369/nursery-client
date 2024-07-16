@@ -21,7 +21,6 @@ const PaymentCard = () => {
  useEffect(()=>{
   data({amount: (totalcount.totaPrice).toFixed(2)})
  },[isError])
- console.log(clintData)
   return (
     <div>
       <SectionLayout>

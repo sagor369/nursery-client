@@ -12,7 +12,6 @@ const CategoryManage = () => {
   const [data, { isError, isLoading, isSuccess }] = useCreateCategoryMutation();
   const onsubmit: SubmitHandler<any> = async (event) => {
     setErrorMessage("");
-    console.log(event);
 
     const ApiKey = "35ad74456a84c96fea6c9d9aedd15a97";
     const image = event.imageUrl[0];

@@ -3,6 +3,7 @@ import SearchBar from "@/components/layout/share/SearchBar";
 import { Link, Outlet } from "react-router-dom";
 import logo from "@/assets/logo.png";
 import UserBar from "@/components/layout/share/UserBar";
+import Footer from "@/components/layout/share/Footer";
 
 const Plants = () => {
   return (
@@ -22,6 +23,7 @@ const Plants = () => {
         </div>
       </div>
       <Outlet></Outlet>
+      <Footer></Footer>
     </div>
   );
 };

@@ -54,7 +54,6 @@ const Pay = ({ totalcount, plants, clintData }: TProps) => {
     });
   }
 
-console.log(clintData)
 const userData = {
   products: [...payUser],
   quantitys: totalcount.totalPic,

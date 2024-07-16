@@ -3,7 +3,7 @@ import SectionLayout from "../SectionLayout";
 import { PiCurrencyDollarBold } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 import { IoIosRemove, IoMdAdd } from "react-icons/io";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAppDispatch } from "@/redux/hooks";
 import {
   addToCard,
 } from "@/redux/features/CardSlice";
@@ -16,8 +16,6 @@ const PlantsDetails = () => {
   const [totalQuantity, setQuantity] = useState<number>(1)
   const navigate = useNavigate()
   const dispatch = useAppDispatch();
-  const cardData = useAppSelector((state) => state.CardData)
-  console.log(cardData)
   const { id } = useParams();
   const { data: result, isLoading } = useGetSinglePlantQuery(id);
   
@@ -26,7 +24,6 @@ const PlantsDetails = () => {
       totalAmount: result.data.price* totalQuantity,
       totalQuantity
     }
-    console.log(total)
     dispatch(addToCard({...result.data, ...total}))
     toast.success("product add to card")
   }
