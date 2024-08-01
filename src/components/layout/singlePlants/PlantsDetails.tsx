@@ -21,19 +21,19 @@ const PlantsDetails = () => {
   
   const cardAddProduct = () =>{
     const total = {
-      totalAmount: result.data.price* totalQuantity,
+      totalAmount: result?.data?.price* totalQuantity,
       totalQuantity
     }
-    dispatch(addToCard({...result.data, ...total}))
+    dispatch(addToCard({...result?.data, ...total}))
     toast.success("product add to card")
   }
 
   const handlepayment = () =>{
     const total = {
-      totalAmount: result.data.price* totalQuantity,
+      totalAmount: result?.data?.price* totalQuantity,
       totalQuantity
     }
-  dispatch(addToCard({...result.data, ...total}))
+  dispatch(addToCard({...result?.data, ...total}))
   navigate("/payment")
 
 
@@ -53,7 +53,7 @@ const PlantsDetails = () => {
           <div className="flex items-center justify-center p-4">
             <img
               className="h-[500px] rounded-md w-full "
-              src={result.data.imageUrl}
+              src={result?.data?.imageUrl}
               alt=""
             />
           </div>
@@ -61,14 +61,14 @@ const PlantsDetails = () => {
             <div>
               <div className="text-2xl font-bold font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2">
                 <h2 className="col-span-1">Name: </h2>
-                <h2 className="col-span-4">{result.data.name}</h2>
+                <h2 className="col-span-4">{result?.data?.name}</h2>
               </div>
               <div className=" font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2 items-start justify-between">
                 <h2 className="text-base font-bold  col-span-1">
                   {" "}
                   description:{" "}
                 </h2>
-                <p className="col-span-4">{result.data.description}</p>
+                <p className="col-span-4">{result?.data?.description}</p>
               </div>
               <div className="grid grid-cols-5 gap-1 ">
                 <h2 className="text-base text-gray-700 font-bold col-span-1">
@@ -86,7 +86,7 @@ const PlantsDetails = () => {
                   Quantity:
                 </h2>
                 <p className="border-2 border-white px-2 font-semibold text-lg">
-                  {result.data.quantity} pic
+                  {result?.data?.quantity} pic
                 </p>
               </div>
               <div className=" font-barlow text-gray-700 grid grid-cols-5 gap-1 capitalize mb-2">
@@ -97,7 +97,7 @@ const PlantsDetails = () => {
                   <PiCurrencyDollarBold className="size-5 text-red-600 font-bold" />
                   <p className="text-2xl text-red-600 font-bold ">
                     {" "}
-                    {result.data.price}
+                    {result?.data?.price}
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ const PlantsDetails = () => {
                 </Button>
                 <p> {totalQuantity}</p>
                 <Button
-                disabled ={ totalQuantity >= result.data.quantity}
+                disabled ={ totalQuantity >= result?.data?.quantity}
                   onClick={() => setQuantity(totalQuantity + 1)}
                   className="bg-white text-black hover:bg-green-800 hover:text-white "
                 >

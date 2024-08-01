@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useCreateCategoryMutation } from "@/redux/features/categorySlice";
 import { toast } from "sonner";
 import FormTitle from "../share/FormTitle";
+import { Loader2 } from "lucide-react";
 
 const CategoryManage = () => {
   const [errorMessage, setErrorMessage] = useState("");
@@ -35,13 +36,7 @@ const CategoryManage = () => {
   if (isError) {
     toast.error("My cagetory create fail");
   }
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center">
-        <p>Loading.....</p>
-      </div>
-    );
-  }
+  
   console.log(errorMessage);
 
   return (
@@ -82,12 +77,18 @@ const CategoryManage = () => {
           </label>
         </div>
         <div className="flex items-center justify-center">
+        {
+            isLoading ? <Button disabled>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>: 
           <Button
             className="hover:bg-white hover:text-black bg-transparent border "
             type="submit"
           >
             Submit
           </Button>
+          }
         </div>
       </FormManage>
     </div>

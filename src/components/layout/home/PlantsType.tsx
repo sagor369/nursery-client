@@ -26,7 +26,7 @@ interface TCategory extends TPlantCategory {
 const PlantsType = () => {
   const {data:result, isLoading, isError} = useGetcategoryQuery(undefined)
   if(isError){
-    toast.error('My cagetory create fail');
+    toast.error(' cagetory fetching fail');
   }
   if(isLoading){
    return <div className="flex items-center justify-center">

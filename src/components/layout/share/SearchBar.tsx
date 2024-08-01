@@ -20,7 +20,7 @@ type Tselect = {
   description: string;
 };
 const SearchBar = () => {
-  const {register, handleSubmit} =useForm()
+  const {register, handleSubmit, reset} =useForm()
   const navigate = useNavigate()
   const { data } = useGetcategoryQuery(undefined);
   const [category, setCategory] = useState("");
@@ -28,6 +28,7 @@ const SearchBar = () => {
   const onSubmitHandler = (event: any) => {
     const{searchTerm} = event
     navigate(`/product?searchTerm=${searchTerm}${category && `&categoryId=${category}`}`)
+    reset()
   };
 
   const selectValue = (value: string) => {

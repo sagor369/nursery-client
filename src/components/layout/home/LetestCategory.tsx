@@ -13,9 +13,9 @@ const LetestCategory = () => {
     data: result,
     isError,
     isLoading,
-  } = useGetPlantsQuery({ searchTerm: "", categoryId: "" });
+  } = useGetPlantsQuery(undefined);
   if (isError) {
-    toast.error("My cagetory create fail");
+    toast.error(" plants fetching fail");
   }
   if (isLoading) {
     return (

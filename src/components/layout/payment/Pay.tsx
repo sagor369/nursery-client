@@ -13,7 +13,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { removeToCard, TPlants } from "@/redux/features/CardSlice";
-import { usePaymentCreateMutation,  } from "@/redux/features/paymentSlice";
+import { usePaymentCreateMutation } from "@/redux/features/paymentSlice";
 import { toast } from "sonner";
 import { useAppDispatch } from "@/redux/hooks";
 import { useNavigate } from "react-router-dom";
@@ -23,13 +23,13 @@ interface TProps {
     totaPrice: number;
   };
   plants: TPlants[];
-  clintData:any
+  clintData: any;
 }
 type TPayuser = {
-  product: string
-    quantity: number
-    totalAmount: number
-}
+  product: string;
+  quantity: number;
+  totalAmount: number;
+};
 
 const Pay = ({ totalcount, plants, clintData }: TProps) => {
   const elements = useElements();
@@ -37,15 +37,26 @@ const Pay = ({ totalcount, plants, clintData }: TProps) => {
   const [checked, isChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [paymentData, {data:result, isError:PaymentError, isLoading:PaymentLoading}] = usePaymentCreateMutation()
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const [
+    paymentData,
+    { data: result, isError: PaymentError, isLoading: PaymentLoading },
+  ] = usePaymentCreateMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const checkedvalue = e.target.checked;
     isChecked(checkedvalue);
   };
 
-  const payUser:TPayuser[] = [];
+  const cashOnHandle = () => {
+    plants.map((item) => {
+      dispatch(removeToCard(item._id));
+    });
+    toast.success("your order is successfully");
+    navigate("/");
+  };
+
+  const payUser: TPayuser[] = [];
   for (let plant of plants) {
     payUser.push({
       product: plant._id,
@@ -54,12 +65,12 @@ const Pay = ({ totalcount, plants, clintData }: TProps) => {
     });
   }
 
-const userData = {
-  products: [...payUser],
-  quantitys: totalcount.totalPic,
-  paymentId: clintData?.data?.client_secret,
-  totalAmount:totalcount.totaPrice
-}
+  const userData = {
+    products: [...payUser],
+    quantitys: totalcount.totalPic,
+    paymentId: clintData?.data?.client_secret,
+    totalAmount: totalcount.totaPrice,
+  };
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -68,12 +79,10 @@ const userData = {
       return setErrorMessage("card form filupe");
     }
 
-    
-    
     // const cardElement = elements.getElement(CardElement);
     // console.log("element", elements)
     // console.log(cardElement)
-   
+
     // const { error, paymentMethod } = await stripe.createPaymentMethod({
     //   type: "card",
     //   card: cardElement,
@@ -96,22 +105,26 @@ const userData = {
     //   setLoading(false);
     //   return;
     // }
-    
-    await paymentData({...userData,   email : (event.target as HTMLFormElement).email.value,
-    })
-    if(PaymentLoading){
-      return <div className="flex items-center justify-center"> loading....</div>
+
+    await paymentData({
+      ...userData,
+      email: (event.target as HTMLFormElement).email.value,
+    });
+    if (PaymentLoading) {
+      return (
+        <div className="flex items-center justify-center"> loading....</div>
+      );
     }
-   
-    if(result){
-      plants.map(item =>{
-        dispatch(removeToCard(item._id))
-      })
-      toast.success(`payment success your id ${result.data._id}`)
-      navigate("/")
+
+    if (result) {
+      plants.map((item) => {
+        dispatch(removeToCard(item._id));
+      });
+      toast.success(`payment success your id ${result.data._id}`);
+      navigate("/");
     }
-     if(PaymentError){
-      toast.error("payment create faile")
+    if (PaymentError) {
+      toast.error("payment create faile");
     }
 
     setLoading(false);
@@ -175,7 +188,10 @@ const userData = {
                 </div>
                 <div className="grid gap-2 my-2">
                   <Label htmlFor="number">Card number</Label>
-                  <CardNumberElement id="card-number-element" className="border p-2 mt-1" />
+                  <CardNumberElement
+                    id="card-number-element"
+                    className="border p-2 mt-1"
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
@@ -222,6 +238,7 @@ const userData = {
 
             <Button
               disabled={!checked}
+              onClick={cashOnHandle}
               className="w-full bg-green-400 font-bold  text-gray-600 hover:bg-green-900 hover:text-white "
             >
               Continue

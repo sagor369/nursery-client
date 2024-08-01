@@ -1,22 +1,20 @@
 import { baseApi } from "../api/Api";
+type Tquery = {
+  title: string 
+  value : string
+}
 
 const PlantsApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getPlants: build.query({
-      query: ({categoryId, searchTerm, page, limit}) => {
+      query: (query) => {
         const params = new URLSearchParams()
-        if(searchTerm){
-          params.append('searchTerm', searchTerm)
+        if(query){
+          query.forEach((element:Tquery) => {
+            params.append(element.title, element.value)
+          });
         }
-        if(categoryId){
-          params.append('categoryId', categoryId)
-        }
-        if(page){
-          params.append('page', page)
-        }
-        if(limit){
-          params.append('limit', limit)
-        }
+       
         return {
           url: "/plants",
           method: "GET",

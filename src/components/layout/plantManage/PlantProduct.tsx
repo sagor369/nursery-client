@@ -1,4 +1,4 @@
-import { SubmitHandler} from "react-hook-form";
+import { FieldValues, SubmitHandler} from "react-hook-form";
 import FormInput from "../share/FormInput";
 import FormManage from "../share/FormManage";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { useCreatePlantMutation } from "@/redux/features/plantSlice";
 import { useGetcategoryQuery } from "@/redux/features/categorySlice";
 import FormTitle from "../share/FormTitle";
+import { Loader2 } from "lucide-react";
 type Tselect = {
   name: string 
   imageUrl: string 
@@ -31,9 +32,10 @@ const PlantProduct = () => {
     setCategory(value);
   };
 
-  const onsubmit: SubmitHandler<any> = async (event) => {
+  const onsubmit: SubmitHandler<FieldValues> = async (event) => {
     const ApiKey = "35ad74456a84c96fea6c9d9aedd15a97";
     const {imageUrl,price, quantity, ...propsData} = event
+    console.log(event)
     const image = imageUrl[0];
     const url = `https://api.imgbb.com/1/upload?key=${ApiKey}`;
     const formData = new FormData();
@@ -45,8 +47,8 @@ const PlantProduct = () => {
     }
     await data({
       ...propsData,
-      price: parseInt(price),
-      quantity: parseInt(quantity),
+      price: Number(price),
+      quantity: Number(quantity),
       imageUrl: result.data.url,
       categoryId: category
     });
@@ -57,12 +59,7 @@ const PlantProduct = () => {
   if(isError){
     toast.error('My Plants create fail');
   }
-  if(isLoading ){
-   return <div className="flex items-center justify-center">
-      <p>Loading.....</p>
-    </div>
-  }
-  console.log(errorMessage)
+  console.log(errorMessage);
   return (
     <div className="border max-w-2xl mx-auto  p-4 rounded-md">
       <FormTitle title="Create a Plant Data"></FormTitle>
@@ -136,12 +133,18 @@ const PlantProduct = () => {
           </label>
         </div>
         <div className=" flex items-center justify-center">
+          {
+            isLoading ? <Button disabled>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>: 
           <Button
             className="hover:bg-white hover:text-black bg-transparent border "
             type="submit"
           >
             Submit
           </Button>
+          }
         </div>
       </FormManage>
     </div>
