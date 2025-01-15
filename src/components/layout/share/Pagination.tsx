@@ -29,7 +29,7 @@ import { useNavigate } from "react-router-dom"
       <Pagination>
         <PaginationContent>
           <PaginationItem>
-            <Button onClick={previousBtn} className="bg-inherit text-black hover:bg-white hover:text-black p-0">
+            <Button disabled={page===1} onClick={previousBtn} className="bg-inherit text-black hover:bg-white hover:text-black p-0">
             <PaginationPrevious />
             </Button>
           </PaginationItem>
@@ -39,7 +39,7 @@ import { useNavigate } from "react-router-dom"
               </PaginationItem>)
             }
           <PaginationItem>
-          <Button onClick={nextBtn} className="bg-inherit text-black hover:bg-white hover:text-black p-0">
+          <Button disabled={totalPage===page} onClick={nextBtn} className="bg-inherit text-black hover:bg-white hover:text-black p-0 disabled:cursor-none">
             
             <PaginationNext   />
             </Button>

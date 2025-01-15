@@ -25,6 +25,7 @@ const LetestCategory = () => {
     );
   }
   return (
+    
     <SectionLayout>
       <div className="bg-white rounded-md">
         <div className="bg-green-800 rounded-md mb-3 py-2 text-white">
@@ -36,8 +37,8 @@ const LetestCategory = () => {
           ))}
         </div>
 
-        {result?.data?.langth > 8 && (
-          <div className="flex items-center justify-center py-4">
+        {result?.data?.length > 8 && (
+          <div className="flex items-center justify-end py-4 mx-2">
             <Button className="bg-green-500 text-gray-800 font-bold hover:bg-green-800 hover:text-white">
               See more
             </Button>
