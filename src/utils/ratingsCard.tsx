@@ -4,9 +4,9 @@ export const ratingRender = (rating: number) => {
     for (let i = 1; i <= 5; i++) {
       ratings.push(
         i <= rating ? (
-          <Star key={i} className="text-yellow-500" />
+          <Star key={i} className="text-yellow-500 size-6" />
         ) : (
-          <StarIcon key={i} className="text-gray-500" />
+          <StarIcon key={i} className="text-gray-500 size-5" />
         )
       );
     }

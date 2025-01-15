@@ -8,26 +8,24 @@ import {
 import { addToCard } from "@/redux/features/CardSlice";
 import { useAppDispatch } from "@/redux/hooks";
 import { ratingRender } from "@/utils/ratingsCard";
-import { PiCurrencyDollarBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import { TPlants } from "../plantManage/typex";
 import { toast } from "sonner";
 
-
 interface TPlant extends TPlants {
   _id: string;
 }
-const CategoryCard = ({item}:{item:TPlant}) => {
-  const dispatch = useAppDispatch()
+const CategoryCard = ({ item }: { item: TPlant }) => {
+  const dispatch = useAppDispatch();
 
-  const cardAddProduct = () =>{
+  const cardAddProduct = () => {
     const total = {
       totalAmount: item.price,
-      totalQuantity: 1
-    }
-    dispatch(addToCard({...item,...total }))
-    toast.success("product add to card")
-  }
+      totalQuantity: 1,
+    };
+    dispatch(addToCard({ ...item, ...total }));
+    toast.success("product add to card");
+  };
   return (
     <div>
       <Card className=" p-2 bg-primary-gradian border-none">
@@ -43,19 +41,32 @@ const CategoryCard = ({item}:{item:TPlant}) => {
           </Link>
         </CardHeader>
         <CardContent className="bg-white p-2">
-          <h2 className="text-xl font-bold text-gray-800 pb-1 h-8 overflow-hidden ">
+          <h2 className="text-xl font-bold border-b-2 my-1 text-gray-800 pb-1 h-8 overflow-hidden ">
             {item.name}
           </h2>
-          <div className="flex gap-2 pb-2">{ratingRender(4)}</div>
           <div className="bg-primary-gradian p-1 inline-block">
-            <div className="flex items-center border-2 bg-white px-1">
-              <PiCurrencyDollarBold className="size-5 text-red-600 font-bold" />
-              <p className="text-2xl text-red-600 font-bold ">{item.price} </p>
+            <div className=" border-2 bg-white px-1">
+              <p className="font-bold">
+                Price:
+                <span className="text-xl text-red-600 font-bold ">
+                  {" "}
+                  ${item.price}
+                </span>{" "}
+              </p>
+            </div>
+          </div>
+          <div className="flex gap-1 py-1">
+            <p>Rating: </p>
+            <div className="flex items-center  gap-2 pb-2">
+              {ratingRender(4)}
             </div>
           </div>
         </CardContent>
         <CardFooter className="flex p-2 justify-between rounded-b-lg bg-white border-t-2 py-2">
-          <Button onClick={cardAddProduct} className="bg-green-500 text-stone-100 font-bold border border-green-800 hover:bg-green-800 hover:text-white ">
+          <Button
+            onClick={cardAddProduct}
+            className="bg-green-500 text-stone-100 font-bold border border-green-800 hover:bg-green-800 hover:text-white "
+          >
             Add to Card
           </Button>
           <div className="flex gap-4 items-center border rounded-md">

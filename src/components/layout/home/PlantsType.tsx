@@ -42,8 +42,8 @@ const PlantsType = () => {
           <div className="bg-green-800 rounded-md mb-3 py-2 text-white flex justify-between items-center pr-4">
             <SectionTitle title={"Shop By Plants Category"}></SectionTitle>
             <div className="flex gap-4">
-              <FaAngleLeft className="size-6 slider-pre rounded-sm bg-white text-green-800" />
-              <FaAngleRight className="size-6 slider-next rounded-sm bg-white text-green-800" />
+              <FaAngleLeft className="size-6 slider-pre cursor-pointer rounded-sm bg-white text-green-800" />
+              <FaAngleRight className="size-6 slider-next cursor-pointer rounded-sm bg-white text-green-800" />
             </div>
           </div>
 

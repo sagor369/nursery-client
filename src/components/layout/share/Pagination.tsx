@@ -21,6 +21,9 @@ import { useNavigate } from "react-router-dom"
     if( page < totalPage){
       naviagate(`/product?page=${page+1}`)
     }
+    if(!page){
+      naviagate(`/product?page=${page+2}`)
+    }
   }
     return (
       <Pagination>
